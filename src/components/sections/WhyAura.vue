@@ -1,19 +1,31 @@
 <template>
-  <section class="bg-cream-100 py-24 px-6">
-    <div class="mx-auto max-w-6xl">
-      <h2 class="text-center font-heading text-3xl font-bold text-brown-800 sm:text-4xl">
-        No somos la agencia del sobrino.
-      </h2>
+  <section class="relative bg-cream-50 py-16 lg:py-32 px-5 lg:px-10 overflow-hidden">
+    <div class="relative mx-auto max-w-5xl">
+      <!-- Header -->
+      <div class="reveal max-w-2xl">
+        <p class="font-secondary text-[0.68rem] font-medium uppercase tracking-[0.25em] text-terracotta-500 mb-5">
+          Por qué nosotros
+        </p>
+        <h2 class="font-heading text-[clamp(1.7rem,3vw,2.5rem)] font-bold text-brown-800 leading-[1.12]">
+          No somos la agencia del sobrino.
+        </h2>
+      </div>
 
-      <div class="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        <div v-for="d in differentiators" :key="d.title" class="rounded-2xl bg-white p-6 shadow-sm">
-          <div class="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-terracotta-100 text-terracotta-600">
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+      <!-- Grid — clean list, checkmarks, no containers -->
+      <div class="mt-14 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-12 lg:gap-x-16 gap-y-10">
+        <div
+          v-for="(d, i) in differentiators"
+          :key="d.title"
+          class="reveal"
+          :class="'reveal-delay-' + Math.min(i + 1, 3)"
+        >
+          <div class="flex items-center gap-2.5 mb-3">
+            <svg class="h-4 w-4 text-terracotta-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
             </svg>
+            <h3 class="font-heading text-[0.92rem] font-bold text-brown-800">{{ d.title }}</h3>
           </div>
-          <h3 class="font-heading text-base font-semibold text-brown-800">{{ d.title }}</h3>
-          <p class="mt-2 text-sm text-brown-500 leading-relaxed">{{ d.description }}</p>
+          <p class="text-[0.85rem] text-brown-400 leading-[1.7] pl-[1.62rem]">{{ d.description }}</p>
         </div>
       </div>
     </div>

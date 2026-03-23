@@ -1,50 +1,57 @@
 <template>
-  <section id="como-funciona" class="bg-brown-800 py-24 px-6">
-    <div class="mx-auto max-w-4xl">
-      <div class="text-center">
-        <h2 class="font-heading text-3xl font-bold text-cream-50 sm:text-4xl">
-          Cada semana, tu inversión rinde más.
-        </h2>
-        <p class="mx-auto mt-5 max-w-2xl text-cream-300 leading-relaxed">
-          No prometemos resultados mágicos. Prometemos un sistema que cada semana entiende
-          mejor qué funciona para tu negocio — y corrige lo que no.
-        </p>
-      </div>
+  <section id="como-funciona" class="relative bg-cream-50 py-16 lg:py-32 px-5 lg:px-10 overflow-hidden">
+    <div class="relative mx-auto max-w-7xl">
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-20">
+        <!-- Text -->
+        <div>
+          <p class="font-secondary text-[0.68rem] font-medium uppercase tracking-[0.25em] text-terracotta-500 mb-5 reveal">
+            El mecanismo
+          </p>
+          <h2 class="font-heading text-[clamp(1.7rem,3vw,2.5rem)] font-bold text-brown-800 leading-[1.12] reveal">
+            Cada semana, tu inversión rinde más.
+          </h2>
+          <p class="mt-6 text-brown-400 leading-[1.8] text-[0.95rem] max-w-lg reveal">
+            No prometemos resultados mágicos. Prometemos un sistema que cada semana entiende
+            mejor qué funciona para tu negocio — y corrige lo que no.
+          </p>
 
-      <div class="mt-16 space-y-0">
-        <div v-for="(step, i) in steps" :key="i" class="relative flex gap-6">
-          <!-- Timeline line -->
-          <div class="flex flex-col items-center">
-            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-terracotta-500 text-white font-bold text-sm">
-              {{ i + 1 }}
+          <div class="mt-10 lg:mt-12 space-y-7 lg:space-y-8">
+            <div
+              v-for="(step, i) in steps"
+              :key="i"
+              class="reveal flex gap-4 lg:gap-5"
+              :class="'reveal-delay-' + (i + 1)"
+            >
+              <span class="font-heading text-[1.6rem] lg:text-[1.8rem] font-bold text-terracotta-300/40 leading-none pt-0.5">{{ i + 1 }}</span>
+              <div>
+                <h3 class="font-heading text-[1rem] lg:text-[1.05rem] font-bold text-brown-800">{{ step.title }}</h3>
+                <p class="mt-1.5 text-brown-400 text-[0.85rem] lg:text-[0.88rem] leading-relaxed">{{ step.description }}</p>
+              </div>
             </div>
-            <div v-if="i < steps.length - 1" class="w-px grow bg-terracotta-500/30 my-2"></div>
           </div>
 
-          <div class="pb-12">
-            <h3 class="font-heading text-xl font-semibold text-cream-50">{{ step.title }}</h3>
-            <p class="mt-2 text-cream-300 text-sm leading-relaxed">{{ step.description }}</p>
+          <div class="mt-10 lg:mt-12 reveal">
+            <a
+              href="#agenda"
+              class="group inline-flex items-center gap-2 font-secondary text-[0.82rem] font-semibold text-terracotta-500
+                     hover:text-terracotta-600 transition-colors duration-300"
+            >
+              Quiero ver cómo aplicaría en mi negocio
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
           </div>
         </div>
-      </div>
 
-      <div class="mt-8 rounded-2xl border border-terracotta-500/20 bg-terracotta-500/10 p-6 text-center">
-        <p class="text-cream-100 font-medium">
-          El resultado: una espiral que se aprieta. Más pacientes del perfil correcto,
-          por menos inversión. Semana tras semana.
-        </p>
-      </div>
-
-      <div class="mt-10 text-center">
-        <a
-          href="#agenda"
-          class="inline-flex items-center gap-2 rounded-full bg-terracotta-500 px-8 py-4 font-semibold text-white shadow-lg hover:bg-terracotta-400 transition-colors"
-        >
-          Quiero ver cómo aplicaría en mi negocio
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </a>
+        <!-- Image -->
+        <div class="reveal flex items-center justify-center mt-4 lg:mt-0">
+          <img
+            src="/img/mechanism-dashboard.png"
+            alt="Dashboard mostrando métricas que mejoran semana tras semana"
+            class="w-full max-w-[18rem] sm:max-w-sm lg:max-w-lg object-contain"
+          />
+        </div>
       </div>
     </div>
   </section>

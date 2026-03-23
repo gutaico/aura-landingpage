@@ -1,28 +1,46 @@
 <template>
-  <section class="bg-cream-50 py-24 px-6">
-    <div class="mx-auto max-w-6xl">
-      <div class="text-center">
-        <h2 class="font-heading text-3xl font-bold text-brown-800 sm:text-4xl">
-          No somos una agencia genérica.<br>
-          <span class="text-terracotta-600">Entendemos por qué tu paciente compra.</span>
-        </h2>
-        <p class="mx-auto mt-5 max-w-2xl text-brown-500 leading-relaxed">
-          Cada anuncio, cada mensaje, cada toque de seguimiento que hacemos está diseñado
-          desde la psicología de compra de tu paciente. Sabemos qué los mueve, qué los frena
-          y qué los hace decir "sí".
-        </p>
-      </div>
+  <section class="relative py-16 lg:py-32 px-5 lg:px-10 overflow-hidden">
+    <div class="absolute inset-0 bg-cream-50"></div>
 
-      <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <div v-for="item in transformations" :key="item.before" class="rounded-2xl border border-cream-200 bg-white p-6">
-          <div class="flex items-center gap-3 mb-4">
-            <span class="text-sm font-medium text-brown-400">{{ item.before }}</span>
-            <svg class="h-4 w-4 text-terracotta-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-            <span class="text-sm font-bold text-terracotta-600">{{ item.after }}</span>
+    <div class="relative mx-auto max-w-7xl">
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-20 items-center">
+        <!-- Image — mirror transformation -->
+        <div class="reveal flex justify-center order-2 lg:order-1">
+          <img
+            src="/img/patient-journey.png"
+            alt="Mujer mirándose al espejo viendo una versión más confiada de sí misma"
+            class="w-full max-w-[18rem] sm:max-w-xs lg:max-w-lg object-contain"
+          />
+        </div>
+
+        <!-- Text -->
+        <div class="reveal reveal-delay-1 order-1 lg:order-2">
+          <p class="font-secondary text-[0.68rem] font-medium uppercase tracking-[0.25em] text-terracotta-500 mb-5">
+            Expertise del sector
+          </p>
+          <h2 class="font-heading text-[clamp(1.7rem,3vw,2.5rem)] font-bold text-brown-800 leading-[1.12]">
+            No somos una agencia genérica.
+            <span class="text-terracotta-600">Entendemos por qué tu paciente compra.</span>
+          </h2>
+          <p class="mt-6 text-brown-400 leading-[1.8] text-[0.95rem] max-w-lg">
+            Cada anuncio, cada mensaje, cada toque de seguimiento está diseñado
+            desde la psicología de compra de tu paciente.
+          </p>
+
+          <div class="mt-8 lg:mt-10 space-y-5 lg:space-y-6">
+            <div
+              v-for="item in transformations"
+              :key="item.before"
+              class="flex items-baseline gap-2 sm:gap-4"
+            >
+              <span class="font-secondary text-[0.65rem] sm:text-[0.72rem] uppercase tracking-wider text-brown-300 w-20 sm:w-28 shrink-0">{{ item.before }}</span>
+              <span class="text-terracotta-500 text-xs sm:text-sm shrink-0">→</span>
+              <div class="min-w-0">
+                <span class="font-secondary text-[0.65rem] sm:text-[0.72rem] uppercase tracking-wider text-terracotta-600 font-semibold">{{ item.after }}</span>
+                <p class="mt-1 text-[0.82rem] sm:text-[0.85rem] leading-relaxed text-brown-400">{{ item.description }}</p>
+              </div>
+            </div>
           </div>
-          <p class="text-sm leading-relaxed text-brown-500">{{ item.description }}</p>
         </div>
       </div>
     </div>
@@ -34,22 +52,22 @@ const transformations = [
   {
     before: 'Inseguridad',
     after: 'Confianza',
-    description: 'Tu paciente no busca un tratamiento. Busca sentirse bien consigo mismo. Nosotros hablamos a esa emoción.',
+    description: 'Tu paciente busca sentirse bien consigo mismo. Nosotros hablamos a esa emoción.',
   },
   {
     before: 'Miedo',
     after: 'Curiosidad',
-    description: 'Le da miedo el procedimiento, el dolor, el resultado. Nuestro contenido desmitifica el proceso real y convierte el miedo en ganas de agendar.',
+    description: 'Nuestro contenido desmitifica el proceso y convierte el miedo en ganas de agendar.',
   },
   {
     before: 'Desconfianza',
     after: 'Autoridad',
-    description: 'Ya vio 10 anuncios iguales. Posicionamos a tu especialista como la figura de confianza: en cámara, con resultados reales.',
+    description: 'Posicionamos a tu especialista como la figura de confianza: en cámara, con resultados.',
   },
   {
     before: '"Algún día"',
     after: 'Ahora',
-    description: 'Sabe que lo quiere pero lo pospone. Convertimos la intención en acción con urgencia suave y facilitadores reales.',
+    description: 'Convertimos la intención en acción con urgencia suave y facilitadores reales.',
   },
 ]
 </script>

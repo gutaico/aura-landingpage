@@ -36,35 +36,65 @@ const faqs = [
 </script>
 
 <template>
-  <section class="bg-cream-50 py-24 px-6">
+  <section class="relative bg-cream-50 py-16 lg:py-32 px-5 lg:px-8">
     <div class="mx-auto max-w-3xl">
-      <h2 class="text-center font-heading text-3xl font-bold text-brown-800 sm:text-4xl">
-        Preguntas frecuentes
-      </h2>
+      <!-- Header -->
+      <div class="text-center reveal">
+        <p class="font-secondary text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-terracotta-500 mb-4">
+          Preguntas frecuentes
+        </p>
+        <h2 class="font-heading text-[clamp(1.8rem,3.5vw,2.4rem)] font-bold text-brown-800 leading-[1.15]">
+          Resolvemos tus dudas
+        </h2>
+      </div>
 
-      <div class="mt-12 divide-y divide-cream-200">
-        <div v-for="(faq, i) in faqs" :key="i">
+      <!-- Accordion -->
+      <div class="mt-12 reveal">
+        <div
+          v-for="(faq, i) in faqs"
+          :key="i"
+          class="border-b border-cream-200/80"
+        >
           <button
             @click="toggle(i)"
-            class="flex w-full items-center justify-between py-5 text-left"
+            class="flex w-full items-center justify-between py-6 text-left bg-transparent border-none cursor-pointer group"
           >
-            <span class="font-medium text-brown-800 pr-4">{{ faq.q }}</span>
-            <svg
-              :class="['h-5 w-5 shrink-0 text-terracotta-500 transition-transform', openIndex === i ? 'rotate-180' : '']"
-              fill="none" stroke="currentColor" viewBox="0 0 24 24"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
+            <span class="font-medium text-[0.92rem] text-brown-700 pr-8 group-hover:text-terracotta-600 transition-colors duration-300">
+              {{ faq.q }}
+            </span>
+            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-cream-300 text-brown-400
+                         group-hover:border-terracotta-400 group-hover:text-terracotta-500 transition-all duration-300">
+              <svg
+                :class="['h-3.5 w-3.5 transition-transform duration-300', openIndex === i ? 'rotate-180' : '']"
+                fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </span>
           </button>
-          <div v-show="openIndex === i" class="pb-5 text-sm text-brown-500 leading-relaxed">
-            {{ faq.a }}
-          </div>
+
+          <Transition
+            enter-active-class="transition-all duration-300 ease-out overflow-hidden"
+            enter-from-class="max-h-0 opacity-0"
+            enter-to-class="max-h-40 opacity-100"
+            leave-active-class="transition-all duration-200 ease-in overflow-hidden"
+            leave-from-class="max-h-40 opacity-100"
+            leave-to-class="max-h-0 opacity-0"
+          >
+            <div v-show="openIndex === i">
+              <p class="pb-6 text-[0.88rem] text-brown-400 leading-relaxed pr-12">
+                {{ faq.a }}
+              </p>
+            </div>
+          </Transition>
         </div>
       </div>
 
-      <p class="mt-10 text-center text-brown-500">
+      <!-- Post-FAQ CTA -->
+      <p class="reveal mt-12 text-center text-brown-400 text-[0.9rem]">
         ¿Tienes otra pregunta?
-        <a href="#agenda" class="font-medium text-terracotta-600 hover:text-terracotta-700 underline underline-offset-2">
+        <a href="#agenda" class="font-medium text-terracotta-600 hover:text-terracotta-700 transition-colors duration-300
+                                 underline underline-offset-4 decoration-terracotta-300/50 hover:decoration-terracotta-500">
           Resuélvela en tu consultoría gratuita &rarr;
         </a>
       </p>

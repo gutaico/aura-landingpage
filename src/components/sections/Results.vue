@@ -1,37 +1,61 @@
 <template>
-  <section id="resultados" class="bg-brown-800 py-24 px-6">
-    <div class="mx-auto max-w-6xl">
-      <h2 class="text-center font-heading text-3xl font-bold text-cream-50 sm:text-4xl">
-        Lo que los datos dicen.
-      </h2>
+  <section id="resultados" class="relative bg-cream-50 py-16 lg:py-32 px-5 lg:px-10 overflow-hidden">
+    <div class="relative mx-auto max-w-6xl">
+      <!-- Header + stats -->
+      <div class="grid lg:grid-cols-[3fr_2fr] gap-12 lg:gap-20 items-start">
+        <div>
+          <div class="reveal">
+            <p class="font-secondary text-[0.68rem] font-medium uppercase tracking-[0.25em] text-terracotta-500 mb-5">
+              Resultados reales
+            </p>
+            <h2 class="font-heading text-[clamp(1.7rem,3vw,2.5rem)] font-bold text-brown-800 leading-[1.12]">
+              Lo que los datos dicen.
+            </h2>
+          </div>
 
-      <!-- Stats bar -->
-      <div class="mt-16 grid grid-cols-2 gap-6 lg:grid-cols-4">
-        <div v-for="stat in stats" :key="stat.label" class="text-center">
-          <p class="font-heading text-4xl font-bold text-terracotta-400 lg:text-5xl">{{ stat.value }}</p>
-          <p class="mt-2 text-sm text-cream-300 leading-snug">{{ stat.label }}</p>
+          <!-- Stats -->
+          <div class="mt-12 grid grid-cols-2 gap-8 reveal">
+            <div v-for="(stat, i) in stats" :key="stat.label" :class="'reveal-delay-' + (i + 1)">
+              <p class="font-heading text-[clamp(2.2rem,4vw,3rem)] font-bold text-terracotta-500 leading-none">
+                {{ stat.value }}
+              </p>
+              <p class="font-secondary mt-2 text-[0.75rem] text-brown-400 leading-snug max-w-[10rem]">{{ stat.label }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image — full agenda -->
+        <div class="reveal flex justify-center lg:pt-8">
+          <img
+            src="/img/results-full-agenda.png"
+            alt="Agenda llena de citas con notificación de nueva cita agendada"
+            class="w-full max-w-[18rem] sm:max-w-xs lg:max-w-md object-contain"
+          />
         </div>
       </div>
 
-      <!-- Testimonials placeholder -->
-      <div class="mt-20 grid gap-6 md:grid-cols-2">
+      <!-- Testimonials -->
+      <div class="mt-16 lg:mt-20 grid lg:grid-cols-2 gap-10 lg:gap-20">
         <div
           v-for="(testimonial, i) in testimonials"
           :key="i"
-          class="rounded-2xl border border-cream-200/10 bg-brown-700/50 p-8"
+          class="reveal"
+          :class="'reveal-delay-' + (i + 1)"
         >
-          <p class="text-cream-200 leading-relaxed italic">"{{ testimonial.quote }}"</p>
-          <div class="mt-6 flex items-center gap-3">
-            <div class="h-10 w-10 rounded-full bg-terracotta-500/30"></div>
+          <p class="text-[1.05rem] leading-[1.8] text-brown-700 italic">
+            "{{ testimonial.quote }}"
+          </p>
+          <div class="mt-5 flex items-center gap-3">
+            <div class="w-8 h-px bg-terracotta-400"></div>
             <div>
-              <p class="text-sm font-semibold text-cream-100">{{ testimonial.name }}</p>
-              <p class="text-xs text-cream-400">{{ testimonial.role }}</p>
+              <p class="font-secondary text-[0.78rem] font-semibold text-brown-700">{{ testimonial.name }}</p>
+              <p class="font-secondary text-[0.68rem] text-brown-400">{{ testimonial.role }}</p>
             </div>
           </div>
         </div>
       </div>
 
-      <p class="mt-6 text-center text-xs text-cream-500">
+      <p class="reveal mt-10 font-secondary text-[0.68rem] text-brown-300">
         *Rango típico: 3x-8x según tipo de tratamiento y madurez del negocio.
       </p>
     </div>
@@ -41,9 +65,9 @@
 <script setup>
 const stats = [
   { value: '5x', label: 'de retorno por cada peso invertido*' },
-  { value: '60-70%', label: 'de leads perdidos recuperados con nuestro sistema' },
-  { value: '21 días', label: 'para tener todo instalado y corriendo' },
-  { value: '$50-$300', label: 'MXN costo por paciente interesado' },
+  { value: '60%', label: 'de leads perdidos recuperados' },
+  { value: '21', label: 'días para tener todo instalado' },
+  { value: '$300', label: 'MXN costo máximo por paciente interesado' },
 ]
 
 const testimonials = [
