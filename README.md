@@ -1,5 +1,52 @@
-# Vue 3 + Vite
+# Aura Landing Page
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Landing page de Aura Marketing — la cara pública de la primera vertical de Gutai Co. Advertising, especializada en bienestar, estética y salud personal.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Stack
+
+- **Vue 3** (Composition API con `<script setup>`)
+- **Vite 8** (build tool)
+- **Tailwind CSS 4**
+
+## Desarrollo
+
+```bash
+npm install
+npm run dev       # servidor de desarrollo
+npm run build     # build de producción → dist/
+npm run preview   # preview del build
+```
+
+## Estructura
+
+```
+src/
+├── App.vue                       ← layout principal
+├── main.js                       ← entry point
+├── style.css                     ← estilos globales + Tailwind
+├── composables/
+│   └── useReveal.js              ← animación de scroll reveal
+├── components/
+│   ├── NavHeader.vue
+│   ├── FooterSection.vue
+│   └── sections/                 ← secciones de la landing
+│       ├── HeroSection.vue
+│       ├── PainBar.vue
+│       ├── WhyAura.vue
+│       ├── HowItWorks.vue
+│       ├── UnderstandPatient.vue
+│       ├── Results.vue
+│       ├── FullSystem.vue
+│       ├── GuaranteeSection.vue
+│       ├── FaqSection.vue
+│       └── CtaForm.vue
+└── assets/
+```
+
+## Deploy
+
+Desplegada en Vercel. El build de producción vive en `dist/`.
+
+## Relación con el proyecto
+
+El contenido y el mensaje de esta landing están alineados con la documentación de Aura: el copy refleja los ángulos del proceso creativo (`../sector/`), la propuesta de valor del mecanismo autocorrectivo (`../../_compartido/metodologia/`), y la garantía de resultados (`../../_compartido/recursos-comerciales/garantia-de-resultados.md`).

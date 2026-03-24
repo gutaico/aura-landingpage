@@ -38,7 +38,7 @@ const differentiators = [
   { title: 'Mecanismo autocorrectivo', description: 'Tu inversión mejora cada semana. No prometemos — convergemos.' },
   { title: 'CRM y automatización incluidos', description: 'Pipeline, seguimiento, nurturing y retención. Desde el día uno.' },
   { title: 'Producción profesional', description: 'Contenido que conecta con la emoción de tu paciente. No diseños genéricos.' },
-  { title: '21 días de implementación', description: 'En 3 semanas tienes todo el sistema instalado y generando resultados.' },
+  { title: '7 días hábiles de implementación', description: 'En una semana tienes todo el sistema instalado y generando resultados.' },
   { title: 'Transparencia total', description: 'Dashboard en tiempo real. Sin reportes mensuales que oculten. Los datos cuando quieras.' },
 ]
 </script>

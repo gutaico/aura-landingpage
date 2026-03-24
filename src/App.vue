@@ -7,6 +7,7 @@ import UnderstandPatient from './components/sections/UnderstandPatient.vue'
 import HowItWorks from './components/sections/HowItWorks.vue'
 import FullSystem from './components/sections/FullSystem.vue'
 import GuaranteeSection from './components/sections/GuaranteeSection.vue'
+import PortfolioSection from './components/sections/PortfolioSection.vue'
 import Results from './components/sections/Results.vue'
 import WhyAura from './components/sections/WhyAura.vue'
 import CtaForm from './components/sections/CtaForm.vue'
@@ -25,6 +26,7 @@ useReveal()
     <HowItWorks />
     <FullSystem />
     <GuaranteeSection />
+    <PortfolioSection />
     <Results />
     <WhyAura />
     <CtaForm />

@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     q: '¿Cuánto tiempo tarda en verse resultados?',
-    a: 'El sistema completo se instala en 21 días. Las primeras citas empiezan a llegar desde la primera semana de campañas activas. El mecanismo autocorrectivo mejora los resultados cada semana — los primeros 30 días son de calibración, y a partir de ahí la espiral se aprieta.',
+    a: 'El sistema completo se instala en 7 días hábiles. Las primeras citas empiezan a llegar desde la primera semana de campañas activas. El mecanismo autocorrectivo mejora los resultados cada semana — los primeros 30 días son de calibración, y a partir de ahí la espiral se aprieta.',
   },
   {
     q: '¿Qué pasa si mis pacientes no usan redes sociales?',
