@@ -1,6 +1,6 @@
 <template>
   <section id="como-funciona" class="relative bg-cream-50 py-16 lg:py-32 px-5 lg:px-10 overflow-hidden">
-    <div class="relative mx-auto max-w-7xl">
+    <div class="relative mx-auto max-w-6xl">
       <div class="grid lg:grid-cols-2 gap-8 lg:gap-20">
         <!-- Text -->
         <div>
