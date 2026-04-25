@@ -117,7 +117,7 @@ const rows = [
 
       <!-- Comparison table -->
       <div class="reveal" :style="{ position: 'relative', maxWidth: '960px', margin: '0 auto' }">
-        <div :style="{
+        <div class="aura-compare-wrap" :style="{
           borderRadius: '20px',
           border: '1px solid rgba(221,209,186,0.8)',
           overflow: 'hidden',
@@ -126,7 +126,7 @@ const rows = [
         }">
 
           <!-- Header row -->
-          <div class="aura-compare-agente" :style="{
+          <div class="aura-compare" :style="{
             display: 'grid',
             gridTemplateColumns: '1.1fr 1fr 1.2fr',
           }">
@@ -198,7 +198,7 @@ const rows = [
           <div
             v-for="(row, i) in rows"
             :key="i"
-            class="aura-compare-agente"
+            class="aura-compare"
             :style="{
               display: 'grid',
               gridTemplateColumns: '1.1fr 1fr 1.2fr',
@@ -212,7 +212,7 @@ const rows = [
               gap: '0.65rem',
               borderBottom: i < rows.length - 1 ? '1px solid rgba(221,209,186,0.5)' : 'none',
             }">
-              <span :style="{
+              <span class="compare-num" :style="{
                 fontFamily: 'var(--font-ui-alt)',
                 fontStyle: 'italic',
                 fontSize: '0.72rem',
@@ -300,14 +300,6 @@ const rows = [
 </template>
 
 <style scoped>
-@media (max-width: 720px) {
-  .aura-compare-agente {
-    grid-template-columns: 1fr !important;
-  }
-  .aura-compare-agente > div {
-    padding: 0.85rem 1.25rem !important;
-  }
-}
 @media (max-width: 640px) {
   .comp-narrative {
     padding-left: 1.25rem !important;

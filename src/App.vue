@@ -57,7 +57,15 @@ function onHashChange() {
 
 onMounted(() => {
   window.addEventListener('hashchange', onHashChange)
-  if (!window.location.hash) history.replaceState(null, '', '#/agencia')
+
+  // If someone navigates to /agente or /agencia as a path, redirect to hash route
+  const path = window.location.pathname.replace(/^\/+|\/+$/g, '')
+  if (path === 'agente' || path === 'agencia') {
+    history.replaceState(null, '', '/#/' + path)
+    currentPage.value = path
+  } else if (!window.location.hash) {
+    history.replaceState(null, '', '#/agencia')
+  }
 })
 onUnmounted(() => window.removeEventListener('hashchange', onHashChange))
 

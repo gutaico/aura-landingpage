@@ -58,7 +58,7 @@ const rows = [
       <div class="reveal" :style="{ position: 'relative', maxWidth: '960px', margin: '0 auto' }">
 
         <!-- Table container -->
-        <div :style="{
+        <div class="aura-compare-wrap" :style="{
           borderRadius: '20px',
           border: '1px solid rgba(221,209,186,0.8)',
           overflow: 'hidden',
@@ -155,7 +155,7 @@ const rows = [
               gap: '0.65rem',
               borderBottom: i < rows.length - 1 ? '1px solid rgba(221,209,186,0.5)' : 'none',
             }">
-              <span :style="{
+              <span class="compare-num" :style="{
                 fontFamily: 'var(--font-ui-alt)',
                 fontStyle: 'italic',
                 fontSize: '0.72rem',
@@ -222,17 +222,3 @@ const rows = [
   </section>
 </template>
 
-<style scoped>
-@media (max-width: 720px) {
-  .compare-row {
-    border-bottom: 1px solid rgba(221,209,186,0.5);
-    margin-bottom: 0;
-  }
-  .compare-attr {
-    background: var(--color-cream-50);
-    font-weight: 600;
-    border-bottom: none !important;
-    padding-bottom: 0.5rem !important;
-  }
-}
-</style>

@@ -168,9 +168,18 @@ button { font-family: inherit; }
   .aura-onboard-line { display: none !important; }
 }
 @media (max-width: 720px) {
-  .aura-compare { grid-template-columns: 1fr !important; }
-  .aura-compare > div { padding: 0.85rem 1.25rem !important; }
   .aura-vs-disc { display: none !important; }
+  /* Keep 3-column comparison tables but compress them */
+  .aura-compare-wrap {
+    margin-left: -0.5rem !important;
+    margin-right: -0.5rem !important;
+    border-radius: 12px !important;
+  }
+  .aura-compare { grid-template-columns: 0.7fr 1fr 1.2fr !important; }
+  .aura-compare > div { padding: 0.6rem 0.6rem !important; font-size: 0.72rem !important; }
+  .aura-compare > div span { font-size: 0.72rem !important; }
+  .aura-compare > div svg { width: 10px !important; height: 10px !important; }
+  .aura-compare .compare-num { display: none !important; }
 }
 @media (max-width: 640px) {
   .aura-footer-grid { grid-template-columns: 1fr !important; }
