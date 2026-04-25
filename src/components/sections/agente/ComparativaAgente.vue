@@ -117,6 +117,8 @@ const rows = [
 
       <!-- Comparison table -->
       <div class="reveal" :style="{ position: 'relative', maxWidth: '960px', margin: '0 auto' }">
+        <!-- Scroll wrapper for mobile -->
+        <div class="aura-compare-scroll">
         <div class="aura-compare-wrap" :style="{
           borderRadius: '20px',
           border: '1px solid rgba(221,209,186,0.8)',
@@ -274,6 +276,7 @@ const rows = [
             </div>
           </div>
         </div>
+        </div><!-- /aura-compare-scroll -->
       </div>
 
       <!-- Bottom quote -->
