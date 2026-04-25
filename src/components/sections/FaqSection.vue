@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 
-const openIndex = ref(null)
+const openIndex = ref(0)
 
 function toggle(i) {
   openIndex.value = openIndex.value === i ? null : i
@@ -9,95 +9,188 @@ function toggle(i) {
 
 const faqs = [
   {
-    q: '¿La consultoría tiene algún costo?',
-    a: 'No. Son 30 minutos donde analizamos tu situación actual y te damos un diagnóstico real con recomendaciones. Si después de eso decides que quieres trabajar juntos, te hacemos una propuesta. Si no, te quedas con el diagnóstico sin costo.',
+    q: '¿Cuánto cuesta trabajar con Aura?',
+    a: 'Hay una activación única + mensualidad fija que cubre operación, optimización semanal y acceso al Dashboard de resultados en tiempo real. Si tu inversión publicitaria crece, se agrega un porcentaje sobre el excedente. Los números exactos los ajustamos a tu volumen en el diagnóstico.',
   },
   {
-    q: '¿Cuánto cuesta el servicio si decido trabajar con ustedes?',
-    a: 'Depende de tu negocio y tus objetivos. Tenemos un setup inicial (cobro único para montar todo el sistema) y un retainer mensual que incluye la operación continua. En la consultoría te damos números exactos para tu caso.',
+    q: '¿Por qué solo trabajan con estética y wellness?',
+    a: 'Porque dominar a un paciente toma años de iteración. Sabemos qué triggers activar, qué objeciones aparecen y cómo nutrir. Una agencia "para todos" es, en realidad, mediocre para todos.',
   },
   {
-    q: '¿Trabajan con cualquier tipo de negocio?',
-    a: 'Nos especializamos exclusivamente en belleza y bienestar: clínicas de estética, centros de depilación láser, clínicas capilares, wellness, dental estético, medicina estética y cirugía plástica. No somos una agencia genérica — eso es lo que nos hace diferentes.',
+    q: '¿En cuánto tiempo veo resultados?',
+    a: 'En 7 días tienes campañas al aire. Primeros leads en la primera semana. La optimización se afina semana a semana -- a los 30 días ya tenemos data sólida del recorrido completo.',
   },
   {
-    q: 'Ya trabajé con una agencia y me fue mal. ¿Por qué sería diferente?',
-    a: 'Porque no prometemos leads — prometemos un mecanismo que cada semana entiende mejor qué funciona para tu negocio específico. Además, tú ves los datos en tiempo real. Sin reportes mensuales que oculten. Si algo no funciona, lo ves tú al mismo tiempo que nosotros.',
+    q: '¿Qué pasa si no me funciona?',
+    a: 'Garantía de 30 días. Si no llegamos al 70% de la meta de prospectos calificados acordada y tú cumpliste con tu parte, te devolvemos todo lo que pagaste.',
   },
   {
-    q: '¿Cuánto tiempo tarda en verse resultados?',
-    a: 'El sistema completo se instala en 7 días hábiles. Las primeras citas empiezan a llegar desde la primera semana de campañas activas. El mecanismo autocorrectivo mejora los resultados cada semana — los primeros 30 días son de calibración, y a partir de ahí la espiral se aprieta.',
+    q: '¿Yo tengo que hacer algo o ustedes se ocupan de todo?',
+    a: 'Nos ocupamos del 95%: estrategia, creativos, lanzamiento, optimización, respuesta, agenda, recordatorios, retención. Lo único que tú haces es atender al paciente cuando llegue a la silla -- y aprobar creativos antes de publicarlos.',
   },
   {
-    q: '¿Qué pasa si mis pacientes no usan redes sociales?',
-    a: 'En México hay más de 93 millones de usuarios en Facebook y 53 millones en Instagram. Tu paciente sí está ahí — el tema es que hoy está viendo los anuncios de tu competencia. La pregunta no es si tu paciente usa redes, sino quién le está hablando primero.',
+    q: '¿Me amarran a un contrato largo?',
+    a: 'No. No pedimos 6 meses de compromiso. Si no te funciona, te vas -- pero no te vas a ir porque te devolvemos el dinero si no cumplimos.',
+  },
+  {
+    q: '¿Ya trabajan en mi ciudad / con mi competencia?',
+    a: 'Trabajamos con exclusividad zonal. Una sola clínica de estética por zona de cobertura, una sola barbería por zona. Si alguien de tu competencia ya está con nosotros, no tomamos tu caso.',
+  },
+  {
+    q: '¿Puedo ver el Dashboard antes de contratar?',
+    a: 'Sí. En el diagnóstico te mostramos una cuenta demo en vivo — con data real anonimizada — para que veas exactamente qué vas a consultar tú cada día.',
   },
 ]
 </script>
 
 <template>
-  <section class="relative bg-cream-50 py-16 lg:py-32 px-5 lg:px-8">
-    <div class="mx-auto max-w-3xl">
-      <!-- Header -->
-      <div class="text-center reveal">
-        <p class="font-secondary text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-terracotta-500 mb-4">
-          Preguntas frecuentes
-        </p>
-        <h2 class="font-heading text-[clamp(1.8rem,3.5vw,2.4rem)] font-bold text-brown-800 leading-[1.15]">
-          Resolvemos tus dudas
-        </h2>
-      </div>
-
-      <!-- Accordion -->
-      <div class="mt-12 reveal">
-        <div
-          v-for="(faq, i) in faqs"
-          :key="i"
-          class="border-b border-cream-200/80"
-        >
-          <button
-            @click="toggle(i)"
-            class="flex w-full items-center justify-between py-6 text-left bg-transparent border-none cursor-pointer group"
+  <section
+    id="faq"
+    class="aura-section-pad"
+    :style="{
+      background: 'var(--color-cream-100)',
+      padding: 'clamp(5rem, 8vw, 9rem) 2.5rem',
+    }"
+  >
+    <div :style="{ maxWidth: '880px', margin: '0 auto' }">
+      <div class="reveal">
+        <div :style="{ textAlign: 'center', marginBottom: '3.5rem' }">
+          <p
+            :style="{
+              fontFamily: 'var(--font-ui)',
+              fontSize: '0.7rem',
+              fontWeight: 500,
+              textTransform: 'uppercase',
+              letterSpacing: '0.28em',
+              color: 'var(--color-terracotta-500)',
+              margin: '0 0 1.25rem',
+            }"
           >
-            <span class="font-medium text-[0.92rem] text-brown-700 pr-8 group-hover:text-terracotta-600 transition-colors duration-300">
-              {{ faq.q }}
-            </span>
-            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-cream-300 text-brown-400
-                         group-hover:border-terracotta-400 group-hover:text-terracotta-500 transition-all duration-300">
-              <svg
-                :class="['h-3.5 w-3.5 transition-transform duration-300', openIndex === i ? 'rotate-180' : '']"
-                fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </span>
-          </button>
-
-          <Transition
-            enter-active-class="transition-all duration-300 ease-out overflow-hidden"
-            enter-from-class="max-h-0 opacity-0"
-            enter-to-class="max-h-40 opacity-100"
-            leave-active-class="transition-all duration-200 ease-in overflow-hidden"
-            leave-from-class="max-h-40 opacity-100"
-            leave-to-class="max-h-0 opacity-0"
+            &sect; IX &middot; Preguntas honestas
+          </p>
+          <h2
+            :style="{
+              fontFamily: 'var(--font-display)',
+              fontWeight: 400,
+              fontSize: 'clamp(2rem, 4vw, 3rem)',
+              lineHeight: 1.05,
+              letterSpacing: '-0.022em',
+              margin: 0,
+              color: 'var(--color-brown-900)',
+            }"
           >
-            <div v-show="openIndex === i">
-              <p class="pb-6 text-[0.88rem] text-brown-400 leading-relaxed pr-12">
-                {{ faq.a }}
-              </p>
-            </div>
-          </Transition>
+            Lo que
+            <span :style="{ fontStyle: 'italic', color: 'var(--color-terracotta-500)' }">todos</span>
+            preguntan.
+          </h2>
         </div>
       </div>
 
-      <!-- Post-FAQ CTA -->
-      <p class="reveal mt-12 text-center text-brown-400 text-[0.9rem]">
-        ¿Tienes otra pregunta?
-        <a href="#agenda" class="font-medium text-terracotta-600 hover:text-terracotta-700 transition-colors duration-300
-                                 underline underline-offset-4 decoration-terracotta-300/50 hover:decoration-terracotta-500">
-          Resuélvela en tu consultoría gratuita &rarr;
-        </a>
-      </p>
+      <div :style="{ display: 'flex', flexDirection: 'column' }">
+        <div
+          v-for="(faq, i) in faqs"
+          :key="i"
+          class="reveal"
+          :style="{
+            borderBottom: '1px solid rgba(221,209,186,0.8)',
+            transition: 'all .3s',
+          }"
+        >
+          <button
+            @click="toggle(i)"
+            class="faq-btn"
+            :style="{
+              width: '100%',
+              textAlign: 'left',
+              padding: '1.5rem 0',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'grid',
+              gridTemplateColumns: 'auto 1fr auto',
+              gap: '1.5rem',
+              alignItems: 'center',
+            }"
+          >
+            <span
+              :style="{
+                fontFamily: 'var(--font-ui-alt)',
+                fontStyle: 'italic',
+                fontSize: '0.85rem',
+                color: 'var(--color-terracotta-500)',
+                opacity: 0.7,
+              }"
+            >
+              0{{ i + 1 }}
+            </span>
+            <span
+              :style="{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(1.05rem, 1.4vw, 1.2rem)',
+                fontWeight: 400,
+                color: 'var(--color-brown-900)',
+                letterSpacing: '-0.005em',
+              }"
+            >
+              {{ faq.q }}
+            </span>
+            <span
+              :style="{
+                width: '32px',
+                height: '32px',
+                borderRadius: '50%',
+                border: '1px solid var(--color-cream-300)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--color-terracotta-500)',
+                flexShrink: 0,
+                transform: openIndex === i ? 'rotate(45deg)' : 'rotate(0)',
+                transition: 'transform .3s cubic-bezier(0.16,1,0.3,1)',
+                fontSize: '1.1rem',
+                lineHeight: 1,
+                fontWeight: 300,
+              }"
+            >
+              +
+            </span>
+          </button>
+
+          <div
+            :style="{
+              maxHeight: openIndex === i ? '400px' : '0',
+              overflow: 'hidden',
+              transition: 'max-height .4s cubic-bezier(0.16,1,0.3,1)',
+            }"
+          >
+            <p
+              class="faq-answer"
+              :style="{
+                padding: '0 0 1.75rem 2.75rem',
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.95rem',
+                lineHeight: 1.65,
+                color: 'var(--color-brown-400)',
+                margin: 0,
+                maxWidth: '66ch',
+              }"
+            >
+              {{ faq.a }}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </template>
+
+<style scoped>
+@media (max-width: 640px) {
+  .faq-btn {
+    gap: 0.75rem !important;
+  }
+  .faq-answer {
+    padding-left: 0 !important;
+  }
+}
+</style>

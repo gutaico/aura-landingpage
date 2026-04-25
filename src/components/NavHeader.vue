@@ -1,28 +1,40 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 
-const visible = ref(true)
-const scrolled = ref(false)
-const mobileOpen = ref(false)
-let lastY = 0
+const props = defineProps({
+  activeTab: { type: String, default: 'agencia' },
+})
+const emit = defineEmits(['switchPage'])
+
+const hidden = ref(false)
+
+const agenciaLinks = [
+  { label: 'Diagnóstico', href: '#diagnostico' },
+  { label: 'Metodología', href: '#metodologia' },
+  { label: 'Portfolio', href: '#portfolio' },
+  { label: 'FAQ', href: '#faq' },
+]
+
+const agenteLinks = [
+  { label: 'Comparativa', href: '#comparativa' },
+  { label: 'Mecanismo', href: '#como-funciona' },
+  { label: 'ROI', href: '#roi' },
+  { label: 'Preguntas', href: '#faq' },
+]
+
+const links = computed(() => props.activeTab === 'agente' ? agenteLinks : agenciaLinks)
+
+const ctaLabel = computed(() => props.activeTab === 'agente' ? 'Probar el agente' : 'Agendar diagnóstico')
 
 function onScroll() {
-  const y = window.scrollY
-  scrolled.value = y > 60
-
-  // Hide on scroll down, show on scroll up (after first 100px)
-  if (y > 100) {
-    visible.value = y < lastY
-  } else {
-    visible.value = true
-  }
-  lastY = y
+  hidden.value = window.scrollY > 80
 }
 
-function scrollTo(id) {
-  mobileOpen.value = false
-  const el = document.getElementById(id)
-  if (el) el.scrollIntoView({ behavior: 'smooth' })
+function switchTo(key) {
+  if (key !== props.activeTab) {
+    emit('switchPage', key)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 }
 
 onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }))
@@ -30,99 +42,96 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
 </script>
 
 <template>
-  <header
-    :class="[
-      'fixed top-0 inset-x-0 z-50 transition-all duration-500',
-      visible ? 'translate-y-0' : '-translate-y-full',
-      'bg-transparent'
-    ]"
-  >
-    <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 lg:px-10 py-4 lg:py-5">
-      <a href="#" class="block">
-        <img
-          :src="scrolled ? '/img/logo-dark.png' : '/img/logo-light.png'"
-          alt="Aura Marketing"
-          class="h-5 lg:h-6 w-auto transition-opacity duration-500"
-        />
+  <nav :style="{
+    position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+    transform: hidden ? 'translateY(-100%)' : 'translateY(0)',
+    transition: 'transform .5s cubic-bezier(0.16,1,0.3,1), opacity .4s ease',
+    opacity: hidden ? 0 : 1,
+  }">
+    <div :style="{
+      maxWidth: '1200px', margin: '0 auto',
+      padding: '1.05rem clamp(1rem, 4vw, 2.5rem)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem',
+    }">
+      <!-- Logo -->
+      <a href="#" :style="{ display: 'flex', alignItems: 'center', gap: '0.55rem', textDecoration: 'none' }">
+        <img src="/logo-dark.webp" alt="Aura" :style="{ height: '22px', display: 'block' }" />
       </a>
 
-      <!-- Desktop -->
-      <div class="hidden items-center gap-9 md:flex">
+      <!-- Tab switcher -->
+      <div :style="{
+        display: 'inline-flex', alignItems: 'center',
+        position: 'relative',
+        padding: '2.5px',
+        background: 'rgba(255,255,255,0.5)',
+        border: '1px solid rgba(221, 209, 186, 0.45)',
+        borderRadius: '999px',
+      }">
+        <!-- Sliding pill -->
+        <div :style="{
+          position: 'absolute',
+          top: '2.5px',
+          bottom: '2.5px',
+          left: '2.5px',
+          width: 'calc(50% - 2.5px)',
+          borderRadius: '999px',
+          background: 'var(--color-brown-900)',
+          transition: 'transform .35s cubic-bezier(0.16,1,0.3,1)',
+          transform: activeTab === 'agencia' ? 'translateX(100%)' : 'translateX(0)',
+        }" />
         <button
-          v-for="link in [
-            { id: 'como-funciona', label: 'Cómo funciona' },
-            { id: 'que-incluye', label: 'Sistema' },
-            { id: 'resultados', label: 'Resultados' },
-          ]"
-          :key="link.id"
-          @click="scrollTo(link.id)"
-          class="font-secondary text-[0.72rem] font-medium uppercase bg-transparent border-none cursor-pointer transition-colors duration-300"
-          :class="scrolled ? 'text-brown-400 hover:text-brown-700' : 'text-cream-300/70 hover:text-cream-100'"
-          style="letter-spacing: 0.12em;"
-        >
-          {{ link.label }}
-        </button>
-        <button
-          @click="scrollTo('agenda')"
-          class="font-secondary text-[0.72rem] font-semibold uppercase bg-transparent border-none cursor-pointer transition-colors duration-300"
-          :class="scrolled ? 'text-terracotta-600 hover:text-terracotta-700' : 'text-terracotta-400 hover:text-terracotta-300'"
-          style="letter-spacing: 0.1em;"
-        >
-          Agendar →
-        </button>
+          v-for="t in [{ key: 'agente', label: 'Agente IA' }, { key: 'agencia', label: 'Agencia' }]"
+          :key="t.key"
+          @click="switchTo(t.key)"
+          :style="{
+            fontFamily: 'var(--font-ui)',
+            fontSize: '0.6rem',
+            fontWeight: 600,
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            padding: '0.28rem 0.7rem',
+            borderRadius: '999px',
+            border: 'none',
+            cursor: 'pointer',
+            background: 'transparent',
+            color: activeTab === t.key ? 'var(--color-cream-50)' : 'var(--color-brown-400)',
+            transition: 'color .25s ease',
+            position: 'relative',
+            zIndex: 1,
+          }"
+        >{{ t.label }}</button>
       </div>
 
-      <!-- Mobile -->
-      <div class="flex items-center gap-3 md:hidden">
-        <button
-          @click="scrollTo('agenda')"
-          class="font-secondary text-[0.68rem] font-semibold uppercase bg-transparent border-none cursor-pointer transition-colors duration-300"
-          :class="scrolled ? 'text-terracotta-600' : 'text-terracotta-400'"
-          style="letter-spacing: 0.1em;"
-        >
-          Agendar
-        </button>
-        <button
-          @click="mobileOpen = !mobileOpen"
-          :class="[
-            'p-1 bg-transparent border-none cursor-pointer transition-colors',
-            scrolled ? 'text-brown-600' : 'text-cream-200'
-          ]"
-        >
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-            <path v-if="!mobileOpen" stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5M3.75 15.75h16.5" />
-            <path v-else stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-    </nav>
+      <!-- Nav links -->
+      <ul class="aura-nav-links" :style="{
+        display: 'flex', gap: '1.8rem', listStyle: 'none', margin: 0, padding: 0,
+      }">
+        <li v-for="link in links" :key="link.label">
+          <a
+            :href="link.href"
+            :style="{
+              fontFamily: 'var(--font-ui)', fontSize: '0.72rem', fontWeight: 500,
+              textTransform: 'uppercase', letterSpacing: '0.14em',
+              color: 'var(--color-brown-400)', textDecoration: 'none', transition: 'color .3s',
+            }"
+            @mouseenter="$event.target.style.color = 'var(--color-terracotta-500)'"
+            @mouseleave="$event.target.style.color = 'var(--color-brown-400)'"
+          >{{ link.label }}</a>
+        </li>
+      </ul>
 
-    <Transition
-      enter-active-class="transition-all duration-300 ease-out"
-      enter-from-class="opacity-0 -translate-y-2"
-      enter-to-class="opacity-100 translate-y-0"
-      leave-active-class="transition-all duration-200 ease-in"
-      leave-from-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 -translate-y-2"
-    >
-      <div
-        v-if="mobileOpen"
-        class="bg-cream-50/95 backdrop-blur-lg px-5 pb-5 pt-2 md:hidden"
-      >
-        <button
-          v-for="link in [
-            { id: 'como-funciona', label: 'Cómo funciona' },
-            { id: 'que-incluye', label: 'Qué incluye' },
-            { id: 'resultados', label: 'Resultados' },
-            { id: 'agenda', label: 'Agendar consultoría' },
-          ]"
-          :key="link.id"
-          @click="scrollTo(link.id)"
-          class="block w-full text-left py-3 text-sm text-brown-600 font-medium bg-transparent border-none cursor-pointer"
-        >
-          {{ link.label }}
-        </button>
-      </div>
-    </Transition>
-  </header>
+      <!-- CTA link -->
+      <a href="#cta" class="aura-nav-cta" :style="{
+        display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+        fontFamily: 'var(--font-ui)', fontSize: '0.82rem', fontWeight: 600,
+        letterSpacing: '0.02em', color: 'var(--color-terracotta-500)',
+        textDecoration: 'none', cursor: 'pointer',
+        transition: 'color .3s cubic-bezier(0.16,1,0.3,1)',
+      }">
+        {{ ctaLabel }}
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        </svg>
+      </a>
+    </div>
+  </nav>
 </template>

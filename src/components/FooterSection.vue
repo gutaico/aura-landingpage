@@ -1,31 +1,171 @@
+<script setup>
+const linkColumns = [
+  {
+    title: 'Producto',
+    items: ['Agente IA', 'Agencia', 'Precios', 'Garantia'],
+  },
+  {
+    title: 'Recursos',
+    items: ['Blog', 'Casos de exito', 'Playbook', 'FAQ'],
+  },
+  {
+    title: 'Contacto',
+    items: ['WhatsApp', 'Email', 'Guadalajara, México', 'Lun-Sab'],
+  },
+]
+
+const legalLinks = ['Terminos', 'Privacidad', 'Cookies']
+
+const grainBg = "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")"
+
+function handleLinkEnter(e) {
+  e.target.style.color = 'var(--color-cream-50)'
+}
+function handleLinkLeave(e) {
+  e.target.style.color = 'rgb(234, 225, 208, 0.75)'
+}
+</script>
+
 <template>
-  <footer class="bg-cream-50 py-12 lg:py-16 px-5 lg:px-10">
-    <div class="mx-auto max-w-7xl">
-      <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
-        <!-- Left -->
+  <footer
+    :style="{
+      background: 'var(--color-brown-900)',
+      color: 'var(--color-cream-50)',
+      position: 'relative',
+      overflow: 'hidden',
+      padding: '5rem clamp(1.25rem, 4vw, 2.5rem) 2.5rem',
+    }"
+  >
+    <!-- Grain overlay -->
+    <div
+      aria-hidden="true"
+      :style="{
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: grainBg,
+        backgroundSize: '180px',
+        opacity: 0.03,
+        pointerEvents: 'none',
+      }"
+    ></div>
+
+    <div :style="{ maxWidth: '1200px', margin: '0 auto', position: 'relative' }">
+      <!-- Main grid -->
+      <div
+        class="aura-footer-grid"
+        :style="{
+          display: 'grid',
+          gridTemplateColumns: '1.3fr 1fr 1fr 1fr',
+          gap: '3rem',
+          paddingBottom: '3rem',
+          borderBottom: '1px solid rgba(102,48,30,0.5)',
+        }"
+      >
+        <!-- Brand column -->
         <div>
-          <a href="#">
-            <img src="/img/logo-dark.png" alt="Aura Marketing" class="h-5 w-auto" />
-          </a>
-          <p class="mt-1 font-secondary text-[0.65rem] text-brown-300 tracking-[0.12em] uppercase">by Gutai Co. Advertising</p>
+          <img
+            src="/logo-light.webp"
+            alt="Aura"
+            :style="{ height: '24px', marginBottom: '1.25rem' }"
+          />
+          <p
+            :style="{
+              fontFamily: 'var(--font-body-alt)',
+              fontStyle: 'italic',
+              fontSize: '1rem',
+              lineHeight: 1.6,
+              color: 'rgb(234, 225, 208, 0.7)',
+              margin: 0,
+              maxWidth: '32ch',
+            }"
+          >
+            Publicidad que se mide en pacientes. Para clinicas de estetica, wellness y salud personal.
+          </p>
         </div>
 
-        <!-- Center -->
-        <p class="font-secondary text-[0.78rem] text-brown-400">Bienestar, Estética y Salud Personal</p>
+        <!-- Link columns -->
+        <div v-for="col in linkColumns" :key="col.title">
+          <p
+            :style="{
+              fontFamily: 'var(--font-ui)',
+              fontSize: '0.68rem',
+              fontWeight: 500,
+              textTransform: 'uppercase',
+              letterSpacing: '0.2em',
+              color: 'var(--color-terracotta-300)',
+              margin: '0 0 1.1rem',
+            }"
+          >
+            {{ col.title }}
+          </p>
+          <ul
+            :style="{
+              listStyle: 'none',
+              margin: 0,
+              padding: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.75rem',
+            }"
+          >
+            <li v-for="item in col.items" :key="item">
+              <a
+                href="#"
+                :style="{
+                  fontFamily: 'var(--font-ui)',
+                  fontSize: '0.85rem',
+                  color: 'rgb(234, 225, 208, 0.75)',
+                  textDecoration: 'none',
+                  transition: 'color .3s',
+                }"
+                @mouseenter="handleLinkEnter"
+                @mouseleave="handleLinkLeave"
+              >
+                {{ item }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
 
-        <!-- Right: social + copyright -->
-        <div class="flex items-center gap-5">
-          <a href="#" class="text-brown-300 hover:text-terracotta-500 transition-colors duration-300" aria-label="Instagram">
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-            </svg>
+      <!-- Bottom bar -->
+      <div
+        :style="{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingTop: '2rem',
+          gap: '2rem',
+          flexWrap: 'wrap',
+        }"
+      >
+        <p
+          :style="{
+            fontFamily: 'var(--font-ui-alt)',
+            fontStyle: 'italic',
+            fontSize: '0.8rem',
+            color: 'rgb(206, 190, 162, 0.5)',
+            margin: 0,
+          }"
+        >
+          &copy; 2026 Aura Marketing &middot; Una vertical de Gutai Co. Advertising
+        </p>
+        <div :style="{ display: 'flex', gap: '1.5rem' }">
+          <a
+            v-for="link in legalLinks"
+            :key="link"
+            href="#"
+            :style="{
+              fontFamily: 'var(--font-ui)',
+              fontSize: '0.72rem',
+              color: 'rgb(206, 190, 162, 0.55)',
+              textDecoration: 'none',
+              textTransform: 'uppercase',
+              letterSpacing: '0.12em',
+            }"
+          >
+            {{ link }}
           </a>
-          <a href="#" class="text-brown-300 hover:text-terracotta-500 transition-colors duration-300" aria-label="WhatsApp">
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-          </a>
-          <span class="font-secondary text-[0.65rem] text-brown-300">&copy; 2026</span>
         </div>
       </div>
     </div>

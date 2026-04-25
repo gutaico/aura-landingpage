@@ -50,7 +50,7 @@ function handleSubmit() {
           <!-- Image — open door -->
           <div class="mt-10 hidden lg:block">
             <img
-              src="/img/cta-open-door.png"
+              src="/img/cta-open-door.webp"
               alt="Puerta de consulta abierta invitando a entrar"
               class="w-full max-w-sm object-contain"
             />

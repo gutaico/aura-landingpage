@@ -1,166 +1,234 @@
 <script setup>
-import { ref, computed, onMounted, nextTick } from 'vue'
-
-const showAll = ref(false)
-const loaded = ref(new Set())
-const sectionVisible = ref(false)
-
-const INITIAL_COUNT = 6
-
-const works = [
-  { id: 1, type: 'video', aspect: 'tall', label: 'Reel — Clínica facial', category: 'Video' },
-  { id: 2, type: 'photo', aspect: 'wide', label: 'Campaña — Depilación láser', category: 'Fotografía' },
-  { id: 3, type: 'design', aspect: 'square', label: 'Carrusel — Medicina estética', category: 'Diseño' },
-  { id: 4, type: 'video', aspect: 'tall', label: 'Testimonial — Clínica capilar', category: 'Video' },
-  { id: 5, type: 'photo', aspect: 'wide', label: 'Antes/Después — Tratamiento corporal', category: 'Fotografía' },
-  { id: 6, type: 'design', aspect: 'square', label: 'Stories — Centro de wellness', category: 'Diseño' },
-  { id: 7, type: 'video', aspect: 'wide', label: 'Reel — Spa day experience', category: 'Video' },
-  { id: 8, type: 'photo', aspect: 'tall', label: 'Branding — Consultorio dental', category: 'Fotografía' },
-  { id: 9, type: 'design', aspect: 'square', label: 'Anuncio — Promoción temporada', category: 'Diseño' },
+const cases = [
+  { name: 'Estudio Lumen', cat: 'Depilación láser', bg: '#a87968', big: '284K', big2: 'views', q: 'El reel que generó $340K en ventas', tall: true },
+  { name: 'Clínica Serena', cat: 'Medicina estética', bg: '#c4a887', big: '47', big2: 'citas / 30 días', q: 'De 4 consultas al mes a 47', tall: false },
+  { name: 'Casa Mellado', cat: 'Barbería premium', bg: '#8e6f5a', big: '2.8×', big2: 'LTV', q: 'Sistema de retención que multiplica', tall: false },
+  { name: 'Estudio Raíz', cat: 'Wellness · Pilates', bg: '#b89780', big: '68%', big2: 'menos no-shows', q: 'Confirmación automática 24h + 2h', tall: true },
+  { name: 'Botánica MD', cat: 'Medicina antiage', bg: '#9d7f6b', big: '$2.3K', big2: 'ticket promedio', q: 'Posicionamiento premium real', tall: false },
+  { name: 'Vera Spa', cat: 'Spa & masajes', bg: '#b08a72', big: '+41', big2: 'socias nuevas', q: 'Comunidad en 60 días', tall: false },
 ]
 
-const visibleWorks = computed(() => showAll.value ? works : works.slice(0, INITIAL_COUNT))
-
-// Placeholder colors matching brand
-const placeholderColors = [
-  'bg-gradient-to-br from-terracotta-200/60 to-terracotta-300/40',
-  'bg-gradient-to-br from-cream-300/80 to-cream-400/60',
-  'bg-gradient-to-br from-brown-200/60 to-brown-300/40',
-  'bg-gradient-to-br from-terracotta-100/70 to-cream-200/50',
-  'bg-gradient-to-br from-brown-100/80 to-cream-300/60',
-  'bg-gradient-to-br from-terracotta-300/30 to-brown-200/40',
-]
-
-function getColor(i) {
-  return placeholderColors[i % placeholderColors.length]
+function onCardEnter(e) {
+  e.currentTarget.style.transform = 'translateY(-4px)'
 }
-
-function getAspect(aspect) {
-  if (aspect === 'tall') return 'aspect-[3/4]'
-  if (aspect === 'wide') return 'aspect-[4/3]'
-  return 'aspect-square'
+function onCardLeave(e) {
+  e.currentTarget.style.transform = 'translateY(0)'
 }
-
-function onItemVisible(id) {
-  loaded.value.add(id)
-}
-
-function loadMore() {
-  showAll.value = true
-  nextTick(() => {
-    // Trigger reveal on new items
-    document.querySelectorAll('.portfolio-item:not(.item-visible)').forEach((el, i) => {
-      setTimeout(() => {
-        el.classList.add('item-visible')
-      }, i * 80)
-    })
-  })
-}
-
-onMounted(() => {
-  // Staggered reveal of initial items
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      if (entry.isIntersecting) {
-        sectionVisible.value = true
-        observer.disconnect()
-        // Stagger initial items
-        document.querySelectorAll('.portfolio-item').forEach((el, i) => {
-          setTimeout(() => {
-            el.classList.add('item-visible')
-            onItemVisible(i)
-          }, i * 100)
-        })
-      }
-    },
-    { threshold: 0.1 }
-  )
-  const section = document.getElementById('portfolio-grid')
-  if (section) observer.observe(section)
-})
 </script>
 
 <template>
-  <section class="relative bg-cream-100 py-16 lg:py-32 px-5 lg:px-10 overflow-hidden">
-    <div class="relative mx-auto max-w-6xl">
+  <section
+    id="portfolio"
+    class="aura-section-pad"
+    :style="{
+      background: 'var(--color-cream-50)',
+      padding: 'clamp(5rem, 8vw, 9rem) 2.5rem',
+      borderTop: '1px solid rgba(221,209,186,0.8)',
+    }"
+  >
+    <div :style="{ maxWidth: '1200px', margin: '0 auto' }">
       <!-- Header -->
-      <div class="reveal max-w-2xl mb-12 lg:mb-16">
-        <p class="font-secondary text-[0.68rem] font-medium uppercase tracking-[0.25em] text-terracotta-500 mb-5">
-          Nuestro trabajo
-        </p>
-        <h2 class="font-heading text-[clamp(1.7rem,3vw,2.5rem)] font-bold text-brown-800 leading-[1.12]">
-          Contenido que genera citas,
-          <span class="text-terracotta-500">no solo likes.</span>
-        </h2>
-      </div>
-
-      <!-- Masonry grid -->
-      <div id="portfolio-grid" class="columns-2 lg:columns-3 gap-3 lg:gap-4 space-y-3 lg:space-y-4">
+      <div class="reveal">
         <div
-          v-for="(work, i) in visibleWorks"
-          :key="work.id"
-          class="portfolio-item break-inside-avoid opacity-0 translate-y-6 transition-all duration-500"
-          style="transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);"
+          class="aura-hero-grid"
+          :style="{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1.5fr',
+            gap: '4rem',
+            alignItems: 'end',
+            marginBottom: '4rem',
+          }"
         >
-          <div
-            class="group relative overflow-hidden rounded-lg lg:rounded-xl cursor-pointer"
-            :class="getAspect(work.aspect)"
-          >
-            <!-- Placeholder -->
-            <div :class="['absolute inset-0', getColor(i)]">
-              <!-- Decorative inner elements -->
-              <div class="absolute inset-0 flex items-center justify-center">
-                <div v-if="work.type === 'video'" class="w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm">
-                  <svg class="w-5 h-5 lg:w-6 lg:h-6 text-white/70 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </div>
-                <div v-else-if="work.type === 'photo'" class="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/15 flex items-center justify-center">
-                  <svg class="w-5 h-5 lg:w-6 lg:h-6 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
-                  </svg>
-                </div>
-                <div v-else class="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/15 flex items-center justify-center">
-                  <svg class="w-5 h-5 lg:w-6 lg:h-6 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-
-            <!-- Hover overlay -->
-            <div class="absolute inset-0 bg-brown-900/0 group-hover:bg-brown-900/60 transition-all duration-300 flex items-end p-4 lg:p-5">
-              <div class="opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                <span class="font-secondary text-[0.6rem] lg:text-[0.65rem] uppercase tracking-wider text-terracotta-300">{{ work.category }}</span>
-                <p class="text-cream-50 text-[0.78rem] lg:text-[0.85rem] font-medium mt-0.5 leading-snug">{{ work.label }}</p>
-              </div>
-            </div>
+          <div>
+            <p :style="{
+              fontFamily: 'var(--font-ui)',
+              fontSize: '0.7rem',
+              fontWeight: 500,
+              textTransform: 'uppercase',
+              letterSpacing: '0.28em',
+              color: 'var(--color-terracotta-500)',
+              margin: '0 0 1.25rem',
+            }">
+              &sect; VII &middot; Portfolio
+            </p>
+            <h2 :style="{
+              fontFamily: 'var(--font-display)',
+              fontWeight: 400,
+              fontSize: 'clamp(2rem, 4vw, 3rem)',
+              lineHeight: 1.05,
+              letterSpacing: '-0.022em',
+              margin: 0,
+              color: 'var(--color-brown-900)',
+            }">
+              Creativos que<br /><span :style="{ fontStyle: 'italic', color: 'var(--color-terracotta-500)' }">generaron resultados</span>.
+            </h2>
           </div>
+          <p :style="{
+            fontFamily: 'var(--font-body-alt)',
+            fontStyle: 'italic',
+            fontSize: '1.05rem',
+            lineHeight: 1.55,
+            color: 'var(--color-brown-400)',
+            margin: 0,
+          }">
+            Piezas producidas por nuestro equipo para cl&iacute;nicas reales. Cada una con la m&eacute;trica que import&oacute; detr&aacute;s.
+          </p>
         </div>
       </div>
 
-      <!-- Load more -->
-      <div v-if="!showAll" class="mt-10 lg:mt-12 text-center">
-        <button
-          @click="loadMore"
-          class="group inline-flex items-center gap-2 font-secondary text-[0.82rem] font-semibold text-terracotta-500
-                 hover:text-terracotta-600 transition-colors duration-300
-                 bg-transparent border-none cursor-pointer"
+      <!-- Masonry grid -->
+      <div
+        class="aura-masonry"
+        :style="{ columnCount: 3, columnGap: '1.25rem' }"
+      >
+        <article
+          v-for="(c, i) in cases"
+          :key="i"
+          :style="{
+            breakInside: 'avoid',
+            marginBottom: '1.25rem',
+            position: 'relative',
+            borderRadius: '18px',
+            overflow: 'hidden',
+            aspectRatio: c.tall ? '9/16' : '4/5',
+            background: `linear-gradient(160deg, ${c.bg}, ${c.bg}cc 50%, #4a342c 100%)`,
+            boxShadow: '0 20px 50px rgba(74,52,40,0.18)',
+            cursor: 'pointer',
+            transition: 'transform .4s cubic-bezier(0.16,1,0.3,1)',
+          }"
+          @mouseenter="onCardEnter"
+          @mouseleave="onCardLeave"
         >
-          Ver más trabajos
-          <svg class="w-4 h-4 group-hover:translate-y-0.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
+          <!-- Noise overlay -->
+          <div
+            aria-hidden="true"
+            class="poster-noise"
+          ></div>
+
+          <!-- Gradient floor -->
+          <div
+            aria-hidden="true"
+            :style="{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '55%',
+              background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)',
+              pointerEvents: 'none',
+            }"
+          ></div>
+
+          <!-- Play button -->
+          <div :style="{
+            position: 'absolute',
+            top: '1rem',
+            right: '1rem',
+            width: '34px',
+            height: '34px',
+            borderRadius: '50%',
+            background: 'rgba(255,255,255,0.18)',
+            backdropFilter: 'blur(6px)',
+            border: '1px solid rgba(255,255,255,0.25)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+
+          <!-- Top label: category -->
+          <div :style="{ position: 'absolute', top: '1.1rem', left: '1.25rem', color: 'white' }">
+            <p :style="{
+              fontFamily: 'var(--font-ui)',
+              fontSize: '0.6rem',
+              fontWeight: 500,
+              textTransform: 'uppercase',
+              letterSpacing: '0.2em',
+              margin: 0,
+              opacity: 0.85,
+            }">
+              {{ c.cat }}
+            </p>
+          </div>
+
+          <!-- Bottom content -->
+          <div :style="{
+            position: 'absolute',
+            bottom: '1.1rem',
+            left: '1.25rem',
+            right: '1.25rem',
+            color: 'white',
+          }">
+            <!-- Big number -->
+            <p :style="{
+              fontFamily: 'var(--font-display)',
+              fontWeight: 400,
+              fontStyle: 'italic',
+              fontSize: 'clamp(2.8rem, 5vw, 4.2rem)',
+              lineHeight: 0.95,
+              letterSpacing: '-0.025em',
+              margin: '0 0 0.2rem',
+              textShadow: '0 2px 18px rgba(0,0,0,0.35)',
+            }">
+              {{ c.big }}
+            </p>
+
+            <!-- Big2 label -->
+            <p :style="{
+              fontFamily: 'var(--font-ui)',
+              fontSize: '0.72rem',
+              fontWeight: 500,
+              textTransform: 'uppercase',
+              letterSpacing: '0.2em',
+              margin: '0 0 0.85rem',
+              opacity: 0.85,
+            }">
+              {{ c.big2 }}
+            </p>
+
+            <!-- Quote -->
+            <p :style="{
+              fontFamily: 'var(--font-body-alt)',
+              fontStyle: 'italic',
+              fontSize: '0.95rem',
+              lineHeight: 1.35,
+              margin: '0 0 0.85rem',
+              opacity: 0.95,
+              maxWidth: '24ch',
+            }">
+              "{{ c.q }}"
+            </p>
+
+            <!-- Name -->
+            <div :style="{ paddingTop: '0.65rem', borderTop: '1px solid rgba(255,255,255,0.2)' }">
+              <p :style="{
+                fontFamily: 'var(--font-ui)',
+                fontSize: '0.74rem',
+                fontWeight: 600,
+                color: 'white',
+                margin: 0,
+                letterSpacing: '0.02em',
+              }">
+                {{ c.name }}
+              </p>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
 </template>
 
 <style scoped>
-.portfolio-item.item-visible {
-  opacity: 1;
-  transform: translateY(0);
+.poster-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px;
+  pointer-events: none;
 }
 </style>
