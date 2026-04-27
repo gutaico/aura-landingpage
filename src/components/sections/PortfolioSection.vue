@@ -1,11 +1,11 @@
 <script setup>
 const cases = [
-  { name: 'Estudio Lumen', cat: 'Depilación láser', bg: '#a87968', big: '284K', big2: 'views', q: 'El reel que generó $340K en ventas', tall: true },
-  { name: 'Clínica Serena', cat: 'Medicina estética', bg: '#c4a887', big: '47', big2: 'citas / 30 días', q: 'De 4 consultas al mes a 47', tall: false },
-  { name: 'Casa Mellado', cat: 'Barbería premium', bg: '#8e6f5a', big: '2.8×', big2: 'LTV', q: 'Sistema de retención que multiplica', tall: false },
-  { name: 'Estudio Raíz', cat: 'Wellness · Pilates', bg: '#b89780', big: '68%', big2: 'menos no-shows', q: 'Confirmación automática 24h + 2h', tall: true },
-  { name: 'Botánica MD', cat: 'Medicina antiage', bg: '#9d7f6b', big: '$2.3K', big2: 'ticket promedio', q: 'Posicionamiento premium real', tall: false },
-  { name: 'Vera Spa', cat: 'Spa & masajes', bg: '#b08a72', big: '+41', big2: 'socias nuevas', q: 'Comunidad en 60 días', tall: false },
+  { name: 'Estudio Lumen', cat: 'Depilación láser', bg: '#a87968', big: '284K', big2: 'views', q: 'El reel que generó $340K en ventas', tall: true, img: '/img/portadas_reels/optimized/6.webp' },
+  { name: 'Clínica Serena', cat: 'Medicina estética', bg: '#c4a887', big: '47', big2: 'citas / 30 días', q: 'De 4 consultas al mes a 47', tall: false, img: '/img/portadas_reels/optimized/2.webp' },
+  { name: 'Casa Mellado', cat: 'Barbería premium', bg: '#8e6f5a', big: '2.8×', big2: 'LTV', q: 'Sistema de retención que multiplica', tall: false, img: '/img/portadas_reels/optimized/1.webp' },
+  { name: 'Estudio Raíz', cat: 'Wellness · Pilates', bg: '#b89780', big: '68%', big2: 'menos no-shows', q: 'Confirmación automática 24h + 2h', tall: true, img: '/img/portadas_reels/optimized/9.webp' },
+  { name: 'Botánica MD', cat: 'Medicina antiage', bg: '#9d7f6b', big: '$2.3K', big2: 'ticket promedio', q: 'Posicionamiento premium real', tall: false, img: '/img/portadas_reels/optimized/8.webp' },
+  { name: 'Vera Spa', cat: 'Spa & masajes', bg: '#b08a72', big: '+41', big2: 'socias nuevas', q: 'Comunidad en 60 días', tall: false, img: '/img/portadas_reels/optimized/10.webp' },
 ]
 
 function onCardEnter(e) {
@@ -99,6 +99,20 @@ function onCardLeave(e) {
           @mouseenter="onCardEnter"
           @mouseleave="onCardLeave"
         >
+          <!-- Background image -->
+          <img
+            :src="c.img"
+            alt=""
+            :style="{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 0,
+            }"
+          />
+
           <!-- Noise overlay -->
           <div
             aria-hidden="true"

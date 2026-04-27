@@ -3,8 +3,8 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 /* ── Floating reactions data ── */
 const reactions = [
-  { icon: '♥', label: '284 likes', x: '-18%', y: '6%', delay: 0, color: '#e85a6e', variant: 'reaction' },
-  { icon: '💬', label: '47 mensajes', x: '-22%', y: '40%', delay: 0.3, color: 'var(--color-terracotta-500)', variant: 'reaction' },
+  { icon: '♥', label: '284 likes', x: '-5%', y: '6%', delay: 0, color: '#e85a6e', variant: 'reaction' },
+  { icon: '💬', label: '47 mensajes', x: '-8%', y: '40%', delay: 0.3, color: 'var(--color-terracotta-500)', variant: 'reaction' },
   { icon: '✦', label: '3.2× ROI', x: '78%', y: '10%', delay: 0.6, color: 'var(--color-terracotta-500)', variant: 'stat' },
   { icon: '📅', label: '12 citas nuevas', x: '82%', y: '48%', delay: 0.9, color: 'var(--color-terracotta-500)', variant: 'stat' },
 ]
@@ -15,6 +15,11 @@ const trustItems = [
   { n: '30 días', l: 'garantía total' },
   { n: '+40', l: 'clínicas activas' },
 ]
+
+/* ── Reel portadas carousel ── */
+const reelImages = Array.from({ length: 10 }, (_, i) => `/img/portadas_reels/optimized/${i + 1}.webp`)
+const currentReel = ref(0)
+let reelInterval = null
 
 /* ── Floating reaction mount state ── */
 const mounted = ref({})
@@ -27,10 +32,15 @@ onMounted(() => {
     }, r.delay * 1000 + 400)
     timers.push(t)
   })
+
+  reelInterval = setInterval(() => {
+    currentReel.value = (currentReel.value + 1) % reelImages.length
+  }, 2500)
 })
 
 onUnmounted(() => {
   timers.forEach(t => clearTimeout(t))
+  if (reelInterval) clearInterval(reelInterval)
 })
 
 function getReactionStyles(r, i) {
@@ -274,9 +284,9 @@ function getReactionStyles(r, i) {
 
           <!-- Reel mockup -->
           <div class="hero-reel" :style="{
-            width: '280px',
+            width: '350px',
             aspectRatio: '9 / 16',
-            borderRadius: '20px',
+            borderRadius: '24px',
             background: 'linear-gradient(160deg, var(--color-brown-800), var(--color-brown-900))',
             position: 'relative',
             overflow: 'hidden',
@@ -284,6 +294,16 @@ function getReactionStyles(r, i) {
             boxShadow: '0 24px 64px rgba(74, 52, 40, 0.28)',
             zIndex: 2,
           }">
+            <!-- Portadas cycling background -->
+            <img
+              v-for="(src, idx) in reelImages"
+              :key="src"
+              :src="src"
+              alt=""
+              class="reel-portada"
+              :class="{ 'reel-portada--active': idx === currentReel }"
+            />
+
             <!-- Fake IG top bar -->
             <div :style="{
               position: 'absolute',
@@ -483,6 +503,32 @@ function getReactionStyles(r, i) {
 </template>
 
 <style scoped>
+.reel-portada {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  will-change: opacity, transform;
+  transform: translateY(8%) scale(1.04);
+}
+
+.reel-portada--active {
+  opacity: 1;
+  animation: reelSlideWiggle 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes reelSlideWiggle {
+  0%   { transform: translateY(8%) scale(1.04); }
+  20%  { transform: translateY(0) scale(1.02) rotate(0deg); }
+  45%  { transform: translateY(0) scale(1.025) rotate(0.3deg); }
+  70%  { transform: translateY(0) scale(1.02) rotate(-0.3deg); }
+  100% { transform: translateY(0) scale(1.02) rotate(0deg); }
+}
+
 @media (max-width: 980px) {
   .hero-float-badge {
     display: none !important;
